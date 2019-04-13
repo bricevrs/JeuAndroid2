@@ -143,6 +143,8 @@ public class gameView extends View {
         Enemy ennemi = new Enemy(this);
         ennemi.setPosX(new Random().nextInt((c.getWidth()*2) - c.getWidth()+1) + c.getWidth());
         ennemi.setPosY(new Random().nextInt(c.getHeight()));
+        //ennemi.setPosX(200);
+        //ennemi.setPosY(200);
         return ennemi;
 
     }

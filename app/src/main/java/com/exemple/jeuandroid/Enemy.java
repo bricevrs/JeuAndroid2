@@ -19,7 +19,7 @@ public class Enemy implements NodesScene {
         enemy = BitmapFactory.decodeResource(v.getResources(),R.drawable.enemmi1);
         posX=0;
         posY=0;
-        enemyVelocity=-2;
+        enemyVelocity=8;
     }
 
 
