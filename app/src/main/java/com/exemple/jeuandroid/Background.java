@@ -73,7 +73,7 @@ public class Background {
 
     public void move(float width){
         posX -= backgroundVelocity;
-        if(posX < -width){
+        if(posX <= -width){
             posX = nextWidth;
         }
     }

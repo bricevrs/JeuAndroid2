@@ -22,15 +22,6 @@ public class GameActivity extends AppCompatActivity {
         gameView = new gameView(this);
         setContentView(gameView);
 
-        /*
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                gameView.invalidate();
-            }
-        },0);*/
-
         Timer timer = new Timer(  );
         timer.schedule( new TimerTask() {
             @Override

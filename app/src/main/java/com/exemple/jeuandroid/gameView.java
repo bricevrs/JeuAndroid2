@@ -101,14 +101,6 @@ public class gameView extends View {
             bg.move(c.getWidth());
         }
 
-        for (int i = 0;i<enemies.size();i++){
-            Enemy enemyX = enemies.get(i);
-            c.drawBitmap(enemyX.getMap(),enemyX.getPosX(),enemyX.getPosY(),null);
-            enemyX.move();
-            if(enemyX.getPosX()<0){
-                enemies.remove(i);
-            }
-        }
     }
 
     protected void movePerso(Perso p,Canvas c){
