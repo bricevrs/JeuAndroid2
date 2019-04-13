@@ -16,7 +16,7 @@ public class Background {
         background = BitmapFactory.decodeResource(v.getResources(),R.drawable.forest);
         posX = setNextWidth(v);
         posY = 0;
-        backgroundVelocity = -3;
+        backgroundVelocity = 3;
     }
 
     public void setMap(Bitmap bm) {
@@ -69,6 +69,13 @@ public class Background {
 
     public static int getNextWidth(View v){
         return nextWidth;
+    }
+
+    public void move(float width){
+        posX -= backgroundVelocity;
+        if(posX < -width){
+            posX = nextWidth;
+        }
     }
 
 }

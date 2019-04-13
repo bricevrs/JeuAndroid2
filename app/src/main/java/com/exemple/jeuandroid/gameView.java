@@ -22,17 +22,18 @@ public class gameView extends View {
     private int persoVelocity = 0;
 
     //score
-    private Paint score;
+    private Paint scorePaint;
+    private int score = 0;
 
     //perso
     private Perso perso;
+    private boolean frappe;
 
     //background
     private Bitmap bg;
     private int minPos = 0;
     private int maxPos = 0;
-
-    //private int nbBg;
+    private ArrayList<Background> bgs;
 
 
     //ennemis
@@ -43,19 +44,21 @@ public class gameView extends View {
         super(context);
 
         //init score
-        score = new Paint();
+        scorePaint = new Paint();
         //nbBg = 0;
-        score.setColor(Color.WHITE);
-        score.setTextSize(36);
-        score.setTypeface(Typeface.DEFAULT_BOLD);
+        scorePaint.setColor(Color.WHITE);
+        scorePaint.setTextSize(36);
+        scorePaint.setTypeface(Typeface.DEFAULT_BOLD);
 
         //init perso
         perso = new Perso(this);
+        frappe = true;
 
 
         //init background
         bg = BitmapFactory.decodeResource(getResources(), R.drawable.forest);
-
+        //backgroundMoved
+        bgs = new ArrayList<>();
         //init Enemy
         rand = new Random();
         enemies = new ArrayList<>();
@@ -70,41 +73,48 @@ public class gameView extends View {
         //canvas score
         //moveBackground(canvas);
         canvas.drawBitmap(bg,0,0,null);
-        canvas.drawText("Score : ", canvas.getWidth()/2, 850, score);
+        //addBackground(canvas);
+        //moveBackground(canvas);
+        canvas.drawText("Score : "+score, canvas.getWidth()/2, 850, scorePaint);
         //perso.setPosY(canvas.getHeight()-100);
         //canvas.drawBitmap(perso.getMap(), perso.getPosX(),perso.getPosY(),null);
         movePerso(perso,canvas);
         addEnemyInList(canvas);
         addEnemyInCanvas(canvas);
+        DetectCollisions(canvas);
+        frappe = false;
     }
 
 
+    protected void addBackground(Canvas c){
+        for(int i = 0; i<3; i++){
+            bgs.add(new Background(this));
+        }
+    }
+
     protected void moveBackground(Canvas c){
 
-        //on fais bouger les deux background quand un des trois sort on le replace derriere
-        /*while(bg.length!=3){
-            bg[nbBg] = new Background(this);
-            c.drawBitmap(bg[nbBg].getMap(),Background.getNextWidth(this),0,null);
-            nbBg++;
-        }*/
-        /*for(int i =0;i<3;i++){
-            int newPosX = bg[i].getPosX()-bg[i].getBackgroundVelocity();
-            if(newPosX<=-this.getWidth()) {
-                c.drawBitmap(bg[i].getMap(), Background.setNextWidth(this), bg[i].getPosY(), null);
-                bg[i].setPosX(Background.getNextWidth(this));
-            }
-            else {
-                c.drawBitmap(bg[i].getMap(),newPosX,bg[i].getPosY(),null);
-                bg[i].setPosX(newPosX);
-            };
-        }*/
+        //on fais bouger les trois background quand un des trois sort on le replace derriere
+        for(int i = 0; i<bgs.size(); i++){
+            Background bg = bgs.get(i);
+            c.drawBitmap(bg.getMap(), bg.getPosX(), bg.getPosY(), null);
+            bg.move(c.getWidth());
+        }
 
+        for (int i = 0;i<enemies.size();i++){
+            Enemy enemyX = enemies.get(i);
+            c.drawBitmap(enemyX.getMap(),enemyX.getPosX(),enemyX.getPosY(),null);
+            enemyX.move();
+            if(enemyX.getPosX()<0){
+                enemies.remove(i);
+            }
+        }
     }
 
     protected void movePerso(Perso p,Canvas c){
         /* saut et frappe*/
         /*
-        On verifie si on touche le haut de l'écran (ou bien cette fonction est exe quand on touche lecran
+        On verifie si on touche le aut de l'écran (ou bien cette fonction est exe quand on touche lecran
         On verifie ou on touche l'écran
         Et on agit en conséquence
          */
@@ -121,12 +131,17 @@ public class gameView extends View {
         if(touch){
             if(touchY>c.getHeight()/2){
                 //On frappe
-                //c.drawBitmap(p.getMap(), p.getPosX(), p.getPosY(),null);
+                frappe = true;
+                for(int i =0;i<p.getPersoFrappe().length;i++){
+                    c.drawBitmap(p.getPersoFrappe()[i],p.getPosX(),p.getPosY(),null);
+                }
+                c.drawBitmap(p.getMap(), p.getPosX(), p.getPosY(),null);
                 touch = false;
             }
             if(touchY<=c.getHeight()/2){
                 persoVelocity = -20;
                 c.drawBitmap(p.getMap(),p.getPosX(),p.getPosY(),null);
+
                 touch = false;
             }
         }
@@ -150,7 +165,7 @@ public class gameView extends View {
     }
 
     protected void addEnemyInList(Canvas c){
-        int nbRand = rand.nextInt(80);
+        int nbRand = rand.nextInt(60);
         if (nbRand==7){
             enemies.add(CreateEnemy(c));
         }
@@ -159,8 +174,14 @@ public class gameView extends View {
     protected void DetectCollisions(Canvas c){
         for(int i = 0; i< enemies.size();i++){
             if (collision(perso,enemies.get(i))){
-                //score+=1;
+                perso.setLife();
+                if(perso.getDead()){
+                    //Charge la nouvelle vue
+                }
                 enemies.remove(i);
+                if(frappe){
+                    score+=1;
+                }
             }
         }
     }
@@ -178,23 +199,11 @@ public class gameView extends View {
         }
     }
 
-    /*protected void MovedEnemies(Canvas c){
-        //Changer les valeurs x de chaqu
-        for(int i = 0; i<enemies.size();i++){
-            Enemy enemyX = enemies.get(i);
-            enemyX.setPosX(enemyX.getPosX()-);
-        }
-    }*/
-
-
-
-
-
     //Traiter ensuite les animations
     //Verifier si les ennemis sortent de l'écran et on les effaces
 
     protected boolean collision(NodesScene n1, NodesScene n2){
-        return n1.getPosX()<n2.getPosX()+n2.getWidth() && (n1.getPosX()+n2.getWidth())>n1.getPosX() && n1.getPosY()<n2.getPosY()+n2.getHeight() && n1.getPosY()+n2.getHeight()>n2.getPosY();
+        return (n1.getPosX()<n2.getPosX() && n2.getPosX() < (n1.getPosX()+n2.getWidth())  &&  n1.getPosY()<n2.getPosY() && (n2.getPosY()<n1.getPosY()+n1.getHeight()));
     }
 
     @Override
