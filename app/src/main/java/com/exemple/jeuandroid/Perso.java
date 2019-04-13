@@ -15,7 +15,7 @@ public class Perso implements NodesScene{
 
 
     public Perso(View v){
-        perso = BitmapFactory.decodeResource(v.getResources(),R.drawable.marche2);
+        perso = BitmapFactory.decodeResource(v.getResources(),R.drawable.marche5);
         //this.hit = hit;
         life = 5;
         posX = 50;
@@ -60,6 +60,16 @@ public class Perso implements NodesScene{
 
     public void setPosY(int y){
         posY=y;
+    }
+
+    @Override
+    public float getWidth() {
+        return perso.getWidth();
+    }
+
+    @Override
+    public float getHeight() {
+        return perso.getHeight();
     }
 
 

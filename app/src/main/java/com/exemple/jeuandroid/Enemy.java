@@ -17,8 +17,8 @@ public class Enemy implements NodesScene {
 
     public Enemy(View v){
         enemy = BitmapFactory.decodeResource(v.getResources(),R.drawable.enemmi1);
-        posX=new Random().nextInt((v.getWidth()*2) - v.getWidth()+1) + v.getWidth();
-        posY=new Random().nextInt(v.getHeight());
+        posX=0;
+        posY=0;
         enemyVelocity=-2;
     }
 
@@ -52,5 +52,20 @@ public class Enemy implements NodesScene {
     public void setPosY(int y) {
         posY=y;
     }
+
+    @Override
+    public float getWidth() {
+        return enemy.getWidth();
+    }
+
+    @Override
+    public float getHeight() {
+        return enemy.getHeight();
+    }
+
+    public void move(){
+        posX -= enemyVelocity;
+    }
+
 
 }

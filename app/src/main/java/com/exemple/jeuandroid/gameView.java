@@ -10,6 +10,9 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class gameView extends View {
 
     //ecran touché
@@ -33,7 +36,8 @@ public class gameView extends View {
 
 
     //ennemis
-    //private ArrayList<Enemy> enemies = new ArrayList<>();
+    private ArrayList<Enemy> enemies;
+    private Random rand;
 
     public gameView(Context context) {
         super(context);
@@ -52,6 +56,10 @@ public class gameView extends View {
         //init background
         bg = BitmapFactory.decodeResource(getResources(), R.drawable.forest);
 
+        //init Enemy
+        rand = new Random();
+        enemies = new ArrayList<>();
+
 
     }
 
@@ -60,12 +68,14 @@ public class gameView extends View {
         super.onDraw(canvas);
 
         //canvas score
-        canvas.drawText("Score : ", canvas.getWidth()/2, 850, score);
         //moveBackground(canvas);
         canvas.drawBitmap(bg,0,0,null);
+        canvas.drawText("Score : ", canvas.getWidth()/2, 850, score);
         //perso.setPosY(canvas.getHeight()-100);
         //canvas.drawBitmap(perso.getMap(), perso.getPosX(),perso.getPosY(),null);
         movePerso(perso,canvas);
+        addEnemyInList(canvas);
+        addEnemyInCanvas(canvas);
     }
 
 
@@ -125,18 +135,65 @@ public class gameView extends View {
     }
 
 
-    protected void addEnemy(){
+    protected Enemy CreateEnemy(Canvas c){
         /*toutes les x secondes*/
         /*
         On ajoute les ennemis au hasard si le chiffre correspond au random sortit
         */
-
+        Enemy ennemi = new Enemy(this);
+        ennemi.setPosX(new Random().nextInt((c.getWidth()*2) - c.getWidth()+1) + c.getWidth());
+        ennemi.setPosY(new Random().nextInt(c.getHeight()));
+        return ennemi;
 
     }
+
+    protected void addEnemyInList(Canvas c){
+        int nbRand = rand.nextInt(80);
+        if (nbRand==7){
+            enemies.add(CreateEnemy(c));
+        }
+    }
+
+    protected void DetectCollisions(Canvas c){
+        for(int i = 0; i< enemies.size();i++){
+            if (collision(perso,enemies.get(i))){
+                //score+=1;
+                enemies.remove(i);
+            }
+        }
+    }
+
+    protected void addEnemyInCanvas(Canvas c){
+        //Pour chaque ennemi dans la liste ajout dans canvas
+        //A chaque exe de la fonction move
+        for (int i = 0;i<enemies.size();i++){
+            Enemy enemyX = enemies.get(i);
+            c.drawBitmap(enemyX.getMap(),enemyX.getPosX(),enemyX.getPosY(),null);
+            enemyX.move();
+            if(enemyX.getPosX()<0){
+                enemies.remove(i);
+            }
+        }
+    }
+
+    /*protected void MovedEnemies(Canvas c){
+        //Changer les valeurs x de chaqu
+        for(int i = 0; i<enemies.size();i++){
+            Enemy enemyX = enemies.get(i);
+            enemyX.setPosX(enemyX.getPosX()-);
+        }
+    }*/
+
+
+
+
 
     //Traiter ensuite les animations
     //Verifier si les ennemis sortent de l'écran et on les effaces
 
+    protected boolean collision(NodesScene n1, NodesScene n2){
+        return n1.getPosX()<n2.getPosX()+n2.getWidth() && (n1.getPosX()+n2.getWidth())>n1.getPosX() && n1.getPosY()<n2.getPosY()+n2.getHeight() && n1.getPosY()+n2.getHeight()>n2.getPosY();
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

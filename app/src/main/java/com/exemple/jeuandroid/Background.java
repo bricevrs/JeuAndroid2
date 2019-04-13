@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 
-public class Background implements NodesScene {
+public class Background {
 
     private Bitmap background;
     private int posX;
@@ -19,34 +19,42 @@ public class Background implements NodesScene {
         backgroundVelocity = -3;
     }
 
-    @Override
     public void setMap(Bitmap bm) {
         background = bm;
     }
 
-    @Override
     public Bitmap getMap() {
         return background;
     }
 
-    @Override
+
     public int getPosX() {
         return posX;
     }
 
-    @Override
+
     public int getPosY() {
         return posY;
     }
 
-    @Override
+
     public void setPosX(int x) {
         posX=x;
     }
 
-    @Override
+
     public void setPosY(int y) {
         posY=y;
+    }
+
+
+    public float getWidth() {
+        return background.getWidth();
+    }
+
+
+    public float getHeight() {
+        return background.getHeight();
     }
 
     public int getBackgroundVelocity() {return backgroundVelocity;}

@@ -10,6 +10,7 @@ public interface NodesScene {
     public int getPosY();
     public void setPosX(int x);
     public void setPosY(int y);
-
+    public float getWidth();
+    public float getHeight();
 
 }
