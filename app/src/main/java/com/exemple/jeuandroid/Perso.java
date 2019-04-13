@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.View;
 
-public class perso implements NodesScene{
+public class Perso implements NodesScene{
 
 
     private Bitmap perso;
@@ -14,13 +14,20 @@ public class perso implements NodesScene{
     //rajouter peux etre thread annimation
 
 
-    public perso(View v){
+    public Perso(View v){
         perso = BitmapFactory.decodeResource(v.getResources(),R.drawable.marche2);
+        //this.hit = hit;
         life = 5;
         posX = 50;
-        posY = v.getHeight()-50;
+        posY = 750;
+        //hit = new Thread();
+        //hit.setDaemon(true);
 
     }
+
+    /*public void frapper(){
+
+    }*/
 
 
     public void setLife(){

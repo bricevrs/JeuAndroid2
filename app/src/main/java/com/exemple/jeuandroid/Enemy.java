@@ -6,7 +6,7 @@ import android.view.View;
 
 import java.util.Random;
 
-public class enemy implements NodesScene {
+public class Enemy implements NodesScene {
 
     private Bitmap enemy;
     private int posX;
@@ -15,7 +15,7 @@ public class enemy implements NodesScene {
 
 
 
-    public enemy(View v){
+    public Enemy(View v){
         enemy = BitmapFactory.decodeResource(v.getResources(),R.drawable.enemmi1);
         posX=new Random().nextInt((v.getWidth()*2) - v.getWidth()+1) + v.getWidth();
         posY=new Random().nextInt(v.getHeight());
