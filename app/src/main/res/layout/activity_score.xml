@@ -7,47 +7,48 @@
     tools:context=".scoreActivity">
 
     <LinearLayout
-        android:paddingTop="20dp"
-        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="20dp"
         tools:ignore="MissingConstraints">
 
-    <EditText
+        <EditText
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        tools:ignore="MissingConstraints"
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints"
 
-        />
+            />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <Button
-        android:id="@+id/mainMenu"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainMenu"
-        android:onClick="onClick"
-        tools:layout_editor_absoluteX="58dp"
-        tools:layout_editor_absoluteY="222dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="146dp"
+        android:layout_marginBottom="111dp">
 
-    <Button
-        android:id="@+id/save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:onClick="onClick"
-        tools:layout_editor_absoluteX="258dp"
-        tools:layout_editor_absoluteY="221dp" />
+        <Button
+            android:id="@+id/mainMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="MainMenu"
+            tools:layout_editor_absoluteX="58dp"
+            tools:layout_editor_absoluteY="222dp" />
+
+        <Button
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/null"
+            android:onClick="onClick"
+            android:text="Save"
+            tools:layout_editor_absoluteX="258dp"
+            tools:layout_editor_absoluteY="221dp" />
 
     </LinearLayout>
 
