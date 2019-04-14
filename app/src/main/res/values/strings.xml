@@ -2,4 +2,6 @@
     <string name="app_name">JeuAndroid</string>
     <string name="jouer">Jouer</string>
     <string name="scores">Scores</string>
+    <string name="name">name</string>
+    <string name="delete">delete</string>
 </resources>

@@ -24,7 +24,7 @@ public class Perso implements NodesScene{
         persoFrappe[2] = BitmapFactory.decodeResource(v.getResources(), R.drawable.frappe3);
         persoFrappe[3] = BitmapFactory.decodeResource(v.getResources(), R.drawable.frappe4);
         //this.hit = hit;
-        life = 5;
+        life = 1;
         posX = 50;
         posY = 750;
         dead = false;

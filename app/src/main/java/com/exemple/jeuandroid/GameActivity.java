@@ -1,5 +1,6 @@
 package com.exemple.jeuandroid;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +12,10 @@ import java.util.TimerTask;
 public class GameActivity extends AppCompatActivity {
 
     private gameView gameView;
-    private Handler handler = new Handler(  );
-
-    private final static long Interval=30;
+    private Handler handler = new Handler();
+    private Intent intent;
+    private final static long REFRESH = 3;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,25 +23,26 @@ public class GameActivity extends AppCompatActivity {
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         gameView = new gameView(this);
         setContentView(gameView);
+        intent = new Intent(GameActivity.this, scoreActivity.class);
 
-        Timer timer = new Timer(  );
-        timer.schedule( new TimerTask() {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                handler.post( new Runnable() {
-                    @Override
-                    public void run() {
-                        gameView.invalidate();
-
-                    }
-
-
-                } );
-
-
+                gameView.invalidate();
+                endGame();
             }
+        }, 0, REFRESH);
+    }
 
 
-        },0,Interval);
+
+    protected void endGame(){
+        if(gameView.getGameOver()){
+            intent.putExtra("val", gameView.getScore());
+            timer.cancel();
+            GameActivity.this.startActivity(intent);
+            finish();
+        }
     }
 }

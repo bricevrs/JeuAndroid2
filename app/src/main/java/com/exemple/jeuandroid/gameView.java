@@ -15,6 +15,9 @@ import java.util.Random;
 
 public class gameView extends View {
 
+    //game over
+    private boolean gameOver;
+
     //ecran touché
     private boolean touch = false;
     private float touchY = 0;
@@ -62,6 +65,8 @@ public class gameView extends View {
         //init Enemy
         rand = new Random();
         enemies = new ArrayList<>();
+
+        gameOver = false;
 
 
     }
@@ -168,7 +173,7 @@ public class gameView extends View {
             if (collision(perso,enemies.get(i))){
                 perso.setLife();
                 if(perso.getDead()){
-                    //Charge la nouvelle vue
+                    gameOver = true;
                 }
                 enemies.remove(i);
                 if(frappe){
@@ -208,5 +213,14 @@ public class gameView extends View {
        }
         return false;
     }
+
+    public boolean getGameOver(){
+        return gameOver;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
 }
 
